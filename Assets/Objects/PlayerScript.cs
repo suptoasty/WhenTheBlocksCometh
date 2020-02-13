@@ -23,7 +23,11 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(Input.GetButtonDown("Jump") && canJump) {
+
+        bool grounded = (Physics.Raycast((new Vector2(transform.position.x, transform.position.y + 1f)), Vector3.down, 2f, 1 << LayerMask.NameToLayer("Floor"))); // raycast down to look for ground is not detecting ground? only works if allowing jump when grounded = false; // return "Ground" layer as layer
+        Debug.Log(grounded);
+
+        if(Input.GetButton("Jump") && (canJump || grounded)) {
             Vector3 jump = jumpDirection*jumpForce;
             body.AddForce(jump, ForceMode.Impulse);
             canJump = false;
